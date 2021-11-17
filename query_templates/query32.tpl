@@ -37,7 +37,7 @@ define YEAR  = random(1998,2002,uniform);
 define CSDATE = date([YEAR]+"-01-01",[YEAR]+"-04-01",sales);
 define _LIMIT=100;
 
-[_LIMITA] select [_LIMITB] sum(cs_ext_discount_amt)  as "excess discount amount" 
+[_LIMITA] select [_LIMITB] sum(cs_ext_discount_amt)  as `excess discount amount` 
 from 
    catalog_sales 
    ,item 
@@ -46,7 +46,7 @@ where
 i_manufact_id = [IMID]
 and i_item_sk = cs_item_sk 
 and d_date between '[CSDATE]' and 
-        (cast('[CSDATE]' as date) + 90 days)
+        (cast('[CSDATE]' as date) + interval 90 days)
 and d_date_sk = cs_sold_date_sk 
 and cs_ext_discount_amt  
      > ( 
@@ -58,7 +58,7 @@ and cs_ext_discount_amt
          where 
               cs_item_sk = i_item_sk 
           and d_date between '[CSDATE]' and
-                             (cast('[CSDATE]' as date) + 90 days)
+                             (cast('[CSDATE]' as date) + interval 90 days)
           and d_date_sk = cs_sold_date_sk 
       ) 
 [_LIMITC]; 
